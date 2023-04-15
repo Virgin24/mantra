@@ -1,0 +1,21 @@
+.page {
+    max-width: 800px;
+    margin: 0 auto;
+    font-family: sans-serif;
+  }
+  
+ 
+  
+  main {
+    margin: 2rem 0;
+    /* width:150;
+     height:80 */
+  }
+  
+  footer {
+    background-color: #333;
+    color: white;
+    padding: 1rem;
+    text-align: center;
+  }
+
