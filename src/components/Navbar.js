@@ -1,13 +1,17 @@
-import React,{useRef} from 'react';
+import React,{useRef, useState} from 'react';
 import {FaBars, FaTimes,FaRegUser, FaWallet } from "react-icons/fa"
 import  "../../src/components/css/navbar.css"
+import { ConnectToMetamask } from './Connect';
+import { Menu, Image, Divider, Dropdown, Label } from 'semantic-ui-react';
+
 import logo from "../../src/components/images/logo.jpg"
 
 function Navbar() {
 
                 const navRef = useRef();
+                const [walletAddress, setWalletAddress] = useState("")
 
-                const [open2, setOpen2] = React.useState(true)
+                const [open, setOpen] = React.useState(true)
 
 
             const showNav = ()=>{
@@ -16,10 +20,9 @@ function Navbar() {
 
             const  WalletDropdown =(props)=> {
                 return (
-                <li className={`dropdownitems ${open2 ? 'active' : 'inactive'}`}>
+                <li className={`dropdownitems ${open ? 'active' : 'inactive'}`}>
                     <a href={`${props.link}`}>{props.text}</a>
-                </li>
-                
+                </li>    
                 )
             }   
 
@@ -33,31 +36,34 @@ function Navbar() {
                 </h3>
             </a>
 
+            <span className='header_search'> 
+                 <input type='text' placeholder='Enter text to search'/>
             
+                  <button>search</button>
+            </span>
             
-            <nav ref={navRef} style= {{}}>
+                <a href='/tickets'><h3 style={{marginLeft: 50, marginRight: 20}}>create tickets</h3></a>
+                <a href='/generate-image'><h3 style={{marginLeft: 30, marginRight: 30}}>Generate Image</h3></a>
+                <a href='/profile'><h3> <FaRegUser/> Profile</h3></a>
+            <nav className='nav' ref={navRef}>
+        
+                <div><button onClick={async ()=> {
+                   const {address } =await ConnectToMetamask()
+                   setWalletAddress(address)
+                }}>{walletAddress.length > 0 ? ("Connected: " + String(walletAddress).substring(0, 6) +"..." +String(walletAddress).substring(38)) : ( <span>ConnectWallet</span>)}</button></div>
 
-            <input type='text' placeholder='Enter text to search '/>
-            <button>search</button>
+                <div className='drop'>
+
+                        <div style={{marginLeft:50}} onClick={()=>setOpen(true)}><FaWallet/></div>
+
+                        <div className="wallet_dropdown" >
+                            <ul onMouseLeave={()=>{setOpen(false)}}>   
+                                <li><WalletDropdown link = "/products/wallet"  text = "Stakings"/></li> 
+                                <li><WalletDropdown link = "/products/transfer"  text = "Investing"/></li>   
+                            </ul>           
+                        </div>
+                </div>
                 
-                    <div  >
-                    </div>
-                 
-                    <div style={{}} className="wallet_dropdown" onClick={()=>setOpen2(true)}>
-
-                    <a style={{marginRight:40}} href="/profile"><FaRegUser/></a> 
-
-                        <ul onMouseLeave={()=>{setOpen2(false)}}>   <FaWallet/>
-                            <WalletDropdown link = "/products/wallet"  text = "Stakings"/>
-                            <WalletDropdown link = "/products/transfer"  text = "Investing"/>  
-                        </ul>
-                      </div>
-             
-
-                    <span>
-                                                
-
-                    </span>
 
                 <button className="nav-btn nav-close-btn" onClick={showNav}>
                    <FaTimes />

@@ -6,10 +6,16 @@ import  "../../src/components/css/home.css"
 import image from "../../src/components/images/financial.png"
 import AliceCarousel from 'react-alice-carousel';
 import 'react-alice-carousel/lib/alice-carousel.css';
+import "../../src/components/css/navbar.css"
+import { ConnectToMetamask } from './Connect';
+import {useNavigate} from "react-router-dom"
+  
 
+  
 
 function Home() {
 
+    const navigate = useNavigate();
 
     const handleDragStart = (e) => e.preventDefault();
 
@@ -31,8 +37,12 @@ function Home() {
             // this simply means if its more than 521pixels of secreen
             // it should display 4 items, if less display two items
         }
-
-
+        
+        const connect = async () => {
+            // await ConnectToMetamask()
+              navigate("/generate-image")
+        }
+        
     return ( 
         <div>
             <div className="page">        
@@ -55,11 +65,22 @@ function Home() {
   
             </div>
 
-            
-            <footer style={{marginTop:30}}>
+             <div className='get'> 
+                 <a href='/generate-image'>
+                    <span className='get_span' onClick={async()=> {
+                        if (window.ethereum.isConnected() == false){
+                            await connect ();
+                            }
+                        }}> 
+                         Get Started For Free
+                    </span>
+              </a>
+             </div>
+            <footer >
                 <p>&copy; 2023 Mantra</p>
             </footer>
         </div>
+       
      );
 }
 
